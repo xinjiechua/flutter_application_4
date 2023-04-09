@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_4/reusable_widgets/reusable_widget.dart';
+import 'package:flutter_application_4/screens/home_screen.dart';
 import 'package:flutter_application_4/utils/colors.dart';
 
 class SignInPage extends StatefulWidget {
@@ -53,11 +53,28 @@ class _SignInPageState extends State<SignInPage> {
                   true,
                   passwordController,
                 ),
-              ],
-            ),
+                const SizedBox(height:20,),
+                reusableButton(context, true, (){FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: emailController.text,
+                  password: passwordController.text,)
+                  .then(
+                    (value) => {
+                      Navigator.pushReplacement(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (builder) => const HomePage(),
+                        ),
+                      )
+                    },
+                  );  
+                },
+              )
+            ],
+           ),
           ),
         ),
       ),
     );
   }
 }
+
